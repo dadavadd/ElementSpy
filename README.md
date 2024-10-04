@@ -1,1 +1,3 @@
 # ElementSpy
+
+![](gifs/guide.gif)
