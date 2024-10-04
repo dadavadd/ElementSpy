@@ -1,3 +1,3 @@
 # ElementSpy
 
-![](gifs/guide.gif)
+![](gifs/guider.gif)
