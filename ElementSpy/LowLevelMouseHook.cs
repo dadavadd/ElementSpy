@@ -10,7 +10,7 @@ namespace ElementSpy
 {
     public class LowLevelMouseHook : IDisposable
     {
-        private UnhookWindowsHookExSafeHandle _hookHandle;
+        private HHOOK _hookHandle;
         private readonly HOOKPROC _hookProc;
         private DateTime _lastMouseMove = DateTime.MinValue;
 
@@ -22,13 +22,10 @@ namespace ElementSpy
         }
 
         public void Start()
-            => _hookHandle = SetWindowsHookEx(WINDOWS_HOOK_ID.WH_MOUSE_LL, _hookProc, null, 0u);
+            => _hookHandle = SetWindowsHookEx(WINDOWS_HOOK_ID.WH_MOUSE_LL, _hookProc, default(HINSTANCE), 0u);
 
         public void Stop()
-        {
-            if (_hookHandle != null)
-                UnhookWindowsHookEx((HHOOK)_hookHandle.DangerousGetHandle());
-        }
+            => UnhookWindowsHookEx(_hookHandle);
 
         private LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
         {
