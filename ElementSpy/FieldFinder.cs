@@ -5,40 +5,25 @@ namespace ElementSpy
     public class FieldFinder
     {
         private readonly IElementFinder _elementFinder;
-
-        private readonly IMouseHook _mouseHook;
-
+        private readonly LowLevelMouseHook _mouseHook;
         public event Action<string> FieldFound;
 
-        public FieldFinder(IElementFinder element, IMouseHook mouseHook)
+        public FieldFinder(IElementFinder elementFinder)
         {
-            _elementFinder = element;
-            _mouseHook = mouseHook;
+            _elementFinder = elementFinder;
+            _mouseHook = new LowLevelMouseHook();
             _mouseHook.MouseMove += OnMouseMove;
         }
 
-        private void OnMouseMove(object sender, IMouseMoveEventArgs e)
+        private void OnMouseMove(int x, int y)
         {
-            IUIElement elementAtPosition = _elementFinder.GetElementAtPosition(e.Position);
-            if (elementAtPosition != null)
-            {
-                OnFieldFound(elementAtPosition.GetFieldIdentifier());
-            }
+            var element = _elementFinder.GetElementAtPosition(x, y);
+
+            if (element != null)
+                FieldFound?.Invoke(element.GetFieldIdentifier());
         }
 
-        protected virtual void OnFieldFound(string fieldName)
-        {
-            FieldFound?.Invoke(fieldName);
-        }
-
-        public void StartTracking()
-        {
-            _mouseHook.Start();
-        }
-
-        public void StopTracking()
-        {
-            _mouseHook.Stop();
-        }
+        public void StartTracking() => _mouseHook.Start();
+        public void StopTracking() => _mouseHook.Stop();
     }
 }

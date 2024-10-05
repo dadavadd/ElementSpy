@@ -2,7 +2,7 @@
 {
     public interface IUIElement
     {
-        string GetFieldIdentifier();
         int ProcessId { get; }
+        string GetFieldIdentifier();
     }
 }

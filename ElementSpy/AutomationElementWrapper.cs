@@ -6,6 +6,7 @@ namespace ElementSpy
     internal class AutomationElementWrapper : IUIElement
     {
         private readonly AutomationElement _element;
+        public int ProcessId { get; }
 
         public AutomationElementWrapper(AutomationElement element)
         {
@@ -15,10 +16,8 @@ namespace ElementSpy
 
         public string GetFieldIdentifier()
         {
-            var automationId = _element.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
-            return string.IsNullOrEmpty(automationId) ? string.Empty : automationId;
+            string id = _element.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
+            return string.IsNullOrEmpty(id) ? string.Empty : id;
         }
-
-        public int ProcessId { get; }
     }
 }

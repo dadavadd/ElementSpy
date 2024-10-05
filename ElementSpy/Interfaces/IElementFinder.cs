@@ -4,6 +4,6 @@ namespace ElementSpy.Interfaces
 {
     public interface IElementFinder
     {
-        IUIElement GetElementAtPosition(IScreenPosition position);
+        IUIElement GetElementAtPosition(int x, int y);
     }
 }
